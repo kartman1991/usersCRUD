@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -32,6 +33,7 @@ public class WebConfig implements WebMvcConfigurer {
     public WebConfig(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
     }
+    //thymeleaf
     @Bean
     public SpringResourceTemplateResolver resolver() {
         SpringResourceTemplateResolver resolver = new SpringResourceTemplateResolver();
@@ -54,7 +56,7 @@ public class WebConfig implements WebMvcConfigurer {
         resolver.setTemplateEngine(templateEngine());
         registry.viewResolver(resolver);
     }
-
+    //DB connection
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -64,7 +66,7 @@ public class WebConfig implements WebMvcConfigurer {
         dataSource.setPassword("rootroot");
         return dataSource;
     }
-
+    //Properties
     @Bean
     public Properties properties() {
         Properties properties = new Properties();
@@ -75,20 +77,23 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-        em.setDataSource(dataSource());
-        em.setPackagesToScan("web.model");
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+        vendorAdapter.setDatabase(Database.MYSQL);
+        vendorAdapter.setShowSql(true);
+        vendorAdapter.setGenerateDdl(false);
         em.setJpaVendorAdapter(vendorAdapter);
         em.setJpaProperties(properties());
+        em.setDataSource(dataSource);
+        em.setPackagesToScan("web.model");
         return em;
     }
 
     @Bean
     public PlatformTransactionManager transactionManager() {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
+        transactionManager.setEntityManagerFactory(entityManagerFactory(dataSource()).getObject());
         return transactionManager;
     }
 }

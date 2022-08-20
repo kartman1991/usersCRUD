@@ -9,7 +9,6 @@ import web.service.UserService;
 
 @Controller
 @RequestMapping(name = "/")
-@EnableJpaRepositories
 public class UserController {
     private final UserService userService;
 
