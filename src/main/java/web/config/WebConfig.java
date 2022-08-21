@@ -1,6 +1,5 @@
 package web.config;
 
-import jakarta.persistence.EntityManagerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -29,9 +28,11 @@ import java.util.Properties;
 @EnableJpaRepositories("web.repositories")
 public class WebConfig implements WebMvcConfigurer {
     private final ApplicationContext applicationContext;
+//    private final Environment env;
 
     public WebConfig(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
+//        this.env = env;
     }
     //thymeleaf
     @Bean
