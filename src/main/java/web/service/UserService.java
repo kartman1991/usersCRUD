@@ -32,6 +32,10 @@ public class UserService {
     }
     @Transactional
     public void update(Long id, User user) {
+//        Optional<User> user1 = userRepository.findById(id);
+//        user1.orElse(user).setName(user.getName());
+//        user1.orElse(user).setSurname(user.getSurname());
+//        user1.orElse(user).setAge(user.getAge());
         user.setId(id);
         userRepository.save(user);
     }

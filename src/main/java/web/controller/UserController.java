@@ -2,10 +2,8 @@ package web.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import web.model.User;
-import web.repositories.UserRepository;
 import web.service.UserService;
 
 @Controller
@@ -32,7 +30,7 @@ public class UserController {
     public String newUser(@ModelAttribute("user") User user) {
         return "new";
     }
-    @PatchMapping()
+    @PostMapping("/{id}")
     public String update(@ModelAttribute("user") User user, @PathVariable("id") Long id) {
         userService.update(id, user);
         return "redirect:/";

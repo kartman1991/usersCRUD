@@ -28,11 +28,9 @@ import java.util.Properties;
 @EnableJpaRepositories("web.repositories")
 public class WebConfig implements WebMvcConfigurer {
     private final ApplicationContext applicationContext;
-//    private final Environment env;
 
     public WebConfig(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
-//        this.env = env;
     }
     //thymeleaf
     @Bean
@@ -74,7 +72,6 @@ public class WebConfig implements WebMvcConfigurer {
         Properties properties = new Properties();
         properties.put("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
         properties.put("hibernate.show_sql", true);
-//        properties.put("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
         return properties;
     }
 
