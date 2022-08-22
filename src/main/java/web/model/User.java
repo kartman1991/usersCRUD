@@ -1,6 +1,6 @@
 package web.model;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "users")
@@ -54,6 +54,15 @@ public class User {
 
     public void setAge(byte age) {
         this.age = age;
+    }
+
+    @Override
+    public String toString() {
+        return "User " +
+                "id= " + id +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", age=" + age;
     }
 }
 

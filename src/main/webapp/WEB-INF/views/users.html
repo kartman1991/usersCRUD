@@ -5,6 +5,13 @@
     <title>Index page</title>
 </head>
 <body>
-<h1>kuku</h1>
+    <a href="new">Создать</a>
+    <br>
+    <th:block th:each="user : ${users}"  >
+        <text th:text="${user}" th:with="id = ${user.getId()}"></text>
+        <a th:href="@{/{id} (id=${user.getId()})}">Удалить</a>
+        <a th:href="@{/update/{id} (id=${user.getId()})}">Править</a>
+        <br>
+    </th:block>
 </body>
 </html>
