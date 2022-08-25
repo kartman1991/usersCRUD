@@ -5,6 +5,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import web.model.User;
 import web.service.UserService;
+import web.service.UserServiceImpl;
+
+import java.util.List;
 
 @Controller
 @RequestMapping(name = "/")
@@ -18,7 +21,10 @@ public class UserController {
 
     @GetMapping()
     public String users(Model model) {
-        model.addAttribute("users", userService.findAll());
+        List<User> userList = userService.findAll();
+        User user = new User("dsaf", "efd", (byte) 12);
+        userList.add(user);
+        model.addAttribute("users", userList);
         return "users";
     }
     @PostMapping()
