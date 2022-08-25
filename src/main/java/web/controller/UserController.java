@@ -21,10 +21,7 @@ public class UserController {
 
     @GetMapping()
     public String users(Model model) {
-        List<User> userList = userService.findAll();
-        User user = new User("dsaf", "efd", (byte) 12);
-        userList.add(user);
-        model.addAttribute("users", userList);
+        model.addAttribute("users", userService.findAll());
         return "users";
     }
     @PostMapping()

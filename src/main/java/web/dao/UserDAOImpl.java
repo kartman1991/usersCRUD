@@ -1,21 +1,35 @@
 package web.dao;
 
 import org.springframework.stereotype.Repository;
-import web.config.WebConfig;
+import org.springframework.transaction.annotation.Transactional;
 import web.model.User;
-
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
-import java.sql.ResultSet;
 import java.util.*;
 
 @Repository
 public class UserDAOImpl implements UserDAO {
+    public UserDAOImpl(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
+
+    private static EntityManagerFactory factory =
+            Persistence.createEntityManagerFactory("User");
     @PersistenceContext
     EntityManager entityManager;
     @Override
     public List<User> findAll() {
-        return entityManager.createNativeQuery("select * from usersdb.users").getResultList();
+        entityManager = factory.createEntityManager();
+        entityManager.getTransaction().begin();
+        List<User> userList = entityManager.createNativeQuery("select * from usersdb.users").getResultList();
+        entityManager.getTransaction().commit();
+        entityManager.close();
+        User user = new User("qqq", "aaa", (byte)1);
+        userList.add(user);
+        return userList;
+//        return entityManager.createNativeQuery("select * from usersdb.users").getResultList();
     }
 
     @Override
