@@ -5,9 +5,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import web.model.User;
 import web.service.UserService;
-import web.service.UserServiceImpl;
-
-import java.util.List;
 
 @Controller
 @RequestMapping(name = "/")
@@ -34,8 +31,8 @@ public class UserController {
         return "new";
     }
     @PostMapping("/{id}")
-    public String update(@ModelAttribute("user") User user, @PathVariable("id") Long id) {
-        userService.update(id, user);
+    public String update(@ModelAttribute("user") User user) {
+        userService.update(user);
         return "redirect:/";
     }
     @GetMapping("/update/{id}")
